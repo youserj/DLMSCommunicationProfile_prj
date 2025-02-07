@@ -1,15 +1,19 @@
 import unittest
-from src.DLMSCommunicationProfile.HDLC.hdlc import HDLC, HDLCParameters
-from src.DLMSCommunicationProfile.HDLC.negotiation import Negotiation
+from DLMSCommunicationProfile.HDLC.hdlc import HDLC, HDLCParameters
+from DLMSCommunicationProfile.HDLC.negotiation import Negotiation
 
 
 class TestType(unittest.TestCase):
 
     def test_init(self):
-        cp = HDLC(HDLCParameters(comm_speed=101, max_info_field_length_receive=1000))
+        cp = HDLC(par := HDLCParameters(comm_speed=5, max_info_field_length_receive=1000))
         cp.parameters.validate()
         print(bytes(cp.negotiation.SNRM))
         print(cp)
+        cp2 = HDLC()
+        cp3 = HDLC()
+        cp2.parameters.window_size_receive = 2
+        print(cp2, cp3)
 
     def test_Negotiation(self):
         value = Negotiation()

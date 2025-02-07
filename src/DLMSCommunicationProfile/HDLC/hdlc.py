@@ -33,7 +33,7 @@ class HDLCParameters(Parameters):
 
     def validate(self):
         """RuntimeError :raise if not valid"""
-        x = enums.CommSpeed(self.comm_speed).validate()
+        x = enums.CommSpeed(self.comm_speed)
         window_size_values.validate(self.window_size_transmit)
         window_size_values.validate(self.window_size_receive)
         info_field_length_values.validate(self.max_info_field_length_transmit)
