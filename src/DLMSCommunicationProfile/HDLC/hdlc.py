@@ -4,6 +4,7 @@ from DLMS_SPODES.types.implementations import enums
 from ..base import CommunicationProfile, Parameters
 from .. import limit
 from .negotiation import Negotiation
+from ..osi import OSI
 
 
 window_size_values = limit.MinMax(
@@ -53,3 +54,27 @@ class HDLC(CommunicationProfile):
             window_receive=self.parameters.window_size_receive,
             window_transmit=self.parameters.window_size_transmit
         )
+
+    # async def connect(self, from_: OSI = OSI.NONE, to_: OSI = OSI.APPLICATION):
+    #     pass
+    #
+    # async def physical(self, c: Client):
+    #     if OSI.PHYSICAL not in c.level:
+    #         if not c.media.is_open():
+    #             await c.media.open()
+    #         c.level = OSI.PHYSICAL
+    #         c.set_error(Transmit.OK, "Open port")
+    #         c.log(logL.INFO, F"Open port communication channel: {c.media}")
+    #         # todo: replace to <data_link>
+    #         if (
+    #             c.objects is None
+    #             and not isinstance(self, InitType)
+    #         ):
+    #             await init_type.data_link(c)
+    #             await c.close()  # todo: change to DiscRequest, or make not closed
+    #         ret = await self.data_link(c)
+    #         await c.close()  # todo: change to DiscRequest
+    #         return ret
+    #
+    # async def disconnect(self, from_: OSI = OSI.APPLICATION, to_: OSI = OSI.NONE):
+    #     pass
