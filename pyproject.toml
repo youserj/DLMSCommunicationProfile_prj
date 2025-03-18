@@ -9,12 +9,12 @@ where = ["src"]
 
 [project]
 name = "DLMSCommunicationProfile"
-version = "0.1.2"
+version = "0.1.3"
 authors = [
     {name="Serj Kotilevski", email="youserj@outlook.com"}
 ]
 dependencies = [
-    "DLMS-SPODES >= 0.83, < 0.84",
+    "DLMS-SPODES >= 0.84, < 0.85",
 ]
 description="dlms-spodes"
 readme = "README.md"
