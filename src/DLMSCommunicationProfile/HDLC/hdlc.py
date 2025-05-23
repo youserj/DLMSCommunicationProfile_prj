@@ -1,10 +1,8 @@
 """DLMS UA 1000-2 Ed. 10"""
 from dataclasses import dataclass, field
-from DLMS_SPODES.types.implementations import enums
 from ..base import CommunicationProfile, Parameters
 from .. import limit
 from .negotiation import Negotiation
-from ..osi import OSI
 
 
 window_size_values = limit.MinMax(
@@ -32,9 +30,8 @@ class HDLCParameters(Parameters):
     device_address: int | None = 0x10
     """physical address from HDLC setup, lower address in HDLC frame"""
 
-    def validate(self):
+    def validate(self) -> None:
         """RuntimeError :raise if not valid"""
-        x = enums.CommSpeed(self.comm_speed)
         window_size_values.validate(self.window_size_transmit)
         window_size_values.validate(self.window_size_receive)
         info_field_length_values.validate(self.max_info_field_length_transmit)
@@ -47,34 +44,10 @@ class HDLC(CommunicationProfile):
     parameters: HDLCParameters = field(default_factory=HDLCParameters)
     negotiation: Negotiation = field(init=False)  # todo: temporary need refactoring
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.negotiation = Negotiation(
             max_info_receive=self.parameters.max_info_field_length_receive,
             max_info_transmit=self.parameters.max_info_field_length_transmit,
             window_receive=self.parameters.window_size_receive,
             window_transmit=self.parameters.window_size_transmit
         )
-
-    # async def connect(self, from_: OSI = OSI.NONE, to_: OSI = OSI.APPLICATION):
-    #     pass
-    #
-    # async def physical(self, c: Client):
-    #     if OSI.PHYSICAL not in c.level:
-    #         if not c.media.is_open():
-    #             await c.media.open()
-    #         c.level = OSI.PHYSICAL
-    #         c.set_error(Transmit.OK, "Open port")
-    #         c.log(logL.INFO, F"Open port communication channel: {c.media}")
-    #         # todo: replace to <data_link>
-    #         if (
-    #             c.objects is None
-    #             and not isinstance(self, InitType)
-    #         ):
-    #             await init_type.data_link(c)
-    #             await c.close()  # todo: change to DiscRequest, or make not closed
-    #         ret = await self.data_link(c)
-    #         await c.close()  # todo: change to DiscRequest
-    #         return ret
-    #
-    # async def disconnect(self, from_: OSI = OSI.APPLICATION, to_: OSI = OSI.NONE):
-    #     pass

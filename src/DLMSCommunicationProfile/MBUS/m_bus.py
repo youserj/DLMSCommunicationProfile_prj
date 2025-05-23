@@ -1,5 +1,6 @@
 """DLMS UA 1000-2 Ed. 10"""
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Never
 from ..base import CommunicationProfile, Parameters
 
 
@@ -7,9 +8,9 @@ from ..base import CommunicationProfile, Parameters
 class MBUSParameters(Parameters):
     """10.5.3 Use of the communication layers for this profile"""
 
-    def validate(self):
+    def validate(self) -> Never:
         """RuntimeError :raise if not valid"""
-        raise RuntimeError(F"not support now")
+        raise RuntimeError("not support now")
 
 
 @dataclass

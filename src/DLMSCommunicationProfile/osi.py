@@ -1,4 +1,5 @@
 from enum import IntFlag
+from typing import Self
 
 
 class OSI(IntFlag):
@@ -11,11 +12,11 @@ class OSI(IntFlag):
     PHYSICAL = 0b1
     NONE = 0
 
-    def __str__(self):
-        return "" if self == 0 else self.name
+    def __str__(self) -> str:
+        return "" if self == 0 else str(self.name)
 
-    def __sub__(self, other):
+    def __sub__(self, other: "OSI | int") -> Self:
         return self.__class__(super(OSI, self).__sub__(other))
 
-    def __add__(self, other):
+    def __add__(self, other: "OSI | int") -> Self:
         return self.__class__(super(OSI, self).__sub__(other))

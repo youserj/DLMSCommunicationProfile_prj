@@ -1,5 +1,6 @@
 """DLMS UA 1000-2 Ed. 10"""
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Never
 from ..base import CommunicationProfile, Parameters
 
 
@@ -7,9 +8,9 @@ from ..base import CommunicationProfile, Parameters
 class TCPUDPParameters(Parameters):
     """7.3.3 Protocol specification for the DLMS/COSEM UDP-based transport layer or 7.4.3"""
 
-    def validate(self):
+    def validate(self) -> Never:
         """RuntimeError :raise if not valid"""
-        raise RuntimeError(F"not support now")
+        raise RuntimeError("not support now")
 
 
 @dataclass
