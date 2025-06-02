@@ -52,27 +52,25 @@ class Negotiation:
             else:
                 if content[1] != GROUP_IDENTIFIER:
                     raise ValueError(F"got {content[1]=}, expected {GROUP_IDENTIFIER}")
-                else:
-                    if content[2] != len(content[3:]):
-                        raise ValueError(F"got {content[2]=}, but content has length={len(content)}")
-                    else:
-                        data = memoryview(content[3:])
-                        while data:
-                            match data[0]:
-                                case self.MAXIMUM_INFORMATION_FIELD_LENGTH_TRANSMIT:
-                                    i_rx, data = get_max_information_field(data[1:])
-                                case self.MAXIMUM_INFORMATION_FIELD_LENGTH_RECEIVE:
-                                    i_tx, data = get_max_information_field(data[1:])
-                                case self.WINDOW_SIZE_TRANSMIT:
-                                    w_rx, data = get_window_size(data[1:])
-                                case self.WINDOW_SIZE_RECEIVE:
-                                    w_tx, data = get_window_size(data[1:])
-                                case wrong_tag:
-                                    raise ValueError(F"got {wrong_tag=}, expected ")
+                if content[2] != len(content[3:]):
+                    raise ValueError(F"got {content[2]=}, but content has length={len(content)}")
+                data = memoryview(content[3:])
+                while data:
+                    match data[0]:
+                        case self.MAXIMUM_INFORMATION_FIELD_LENGTH_TRANSMIT:
+                            i_rx, data = get_max_information_field(data[1:])
+                        case self.MAXIMUM_INFORMATION_FIELD_LENGTH_RECEIVE:
+                            i_tx, data = get_max_information_field(data[1:])
+                        case self.WINDOW_SIZE_TRANSMIT:
+                            w_rx, data = get_window_size(data[1:])
+                        case self.WINDOW_SIZE_RECEIVE:
+                            w_tx, data = get_window_size(data[1:])
+                        case wrong_tag:
+                            raise ValueError(F"got {wrong_tag=}, expected ")
             self.max_info_receive, self.max_info_transmit, self.window_receive, self.window_transmit = i_rx, i_tx, w_rx, w_tx
             if hasattr(self, "SNRM"):
                 del self.SNRM
-        except IndexError as e:
+        except IndexError:
             raise ValueError(F"got wrong UA {content.hex(' ')}")
 
     @cached_property
